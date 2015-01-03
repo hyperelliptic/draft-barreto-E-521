@@ -187,9 +187,9 @@ The map from the Montgomery curve takes a point (x,y) to the point
 Each element x of GF(p) has a unique little-endian representation
 as 66 bytes x\[0\] ... x\[65\], such that 
 x\[0\] + 256 * x\[1\] + 256^2 * x\[2\] + ... + 256^65 * x\[65\] 
-is congruent to x modulo p, and x\[65\] is minimal. 
+is congruent to x modulo p, and x\[65\] is minimal, i.e. only
+the least significant bit of x\[65\] may be nonzero. 
 Implementations MUST only produce field elements in this form.
-
 
 # Security considerations
 
