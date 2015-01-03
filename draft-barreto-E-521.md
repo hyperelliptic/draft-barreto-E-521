@@ -66,7 +66,28 @@ informative:
             name: Tanja Lange
             ins: T. Lange
         date: 2013
-  
+
+    TwistedEdwards:
+        target: http://eprint.iacr.org/2008/013
+        title: Twisted Edwards Curves
+        author:
+        -
+            name:  Daniel J. Bernstein
+            ins: D.J. Bernstein
+        -
+            name: Peter Birkner
+            ins: P. Birkner
+        -
+            name: Marc Joye
+            ins: M. Joye
+        -
+            name: Tanja Lange
+            ins: T. Lange    
+        -
+            name: Christiane Peters
+            ins: C. Peters
+        date: 2008
+
     GrangerScott:
         target: http://eprint.iacr.org/2014/852
         title: Faster ECC over $\mathbb{F}_{2^{521}-1}$
@@ -114,6 +135,9 @@ found independently by three teams:
         Diego F. Aranha and Paulo S. L. M. Barreto and Geovandro C. C. F. Pereira and Jefferson E. Ricardini, see {{E521}}
 in fall 2013 {{SafeCurves}}.
 
+This curve has been proposed for use in Brazilian IT systems (see
+{{BarretoAranha}}) and benchmarking results are available {{GrangerScott}}.
+
 ## Terminology
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -125,9 +149,13 @@ document are to be interpreted as described in {{RFC2119}}.
 The following notation and definitions are used in this document
 (notation is to the left of the ":"):
 
-A: A value used in the elliptic-curve equation E.
+A: A value used in an elliptic-curve equation.
 
-E: An elliptic-curve equation.
+B: A value used in an elliptic-curve equation.
+
+d: A value used in an elliptic-curve equation.
+
+E: An elliptic-curve.
 
 p: A prime.
 
@@ -145,8 +173,16 @@ Note that all operations are performed modulo p.
 
 # The E-521 curve 
 
-Let p = 2^521 - 1. Let E be the elliptic curve with equation
+Let p = 2^521 - 1. Let E-521 be the elliptic curve with equation
+in Edwards form
 x^2 + y^2 = 1 - 376014 * x^2 * y^2 over GF(p).
+The Montgomery form of E-521 is given by 
+B * y^2 = x^3 + A * x^2 + x over GF(p), where
+A = 2 * (1 - 376014)/(1 + 376014) and B = 4/(1 + 376014).
+The map from the Edwards curve takes a point (x,y) to the point
+((1 + y)/(1 − y),(1 + y)/(1 − y) * x).
+The map from the Montgomery curve takes a point (x,y) to the point
+(x/y, (x − 1)/(x + 1)).
 
 Each element x of GF(p) has a unique little-endian representation
 as 66 bytes x\[0\] ... x\[65\], such that 
@@ -154,12 +190,16 @@ x\[0\] + 256 * x\[1\] + 256^2 * x\[2\] + ... + 256^65 * x\[65\]
 is congruent to x modulo p, and x\[65\] is minimal. 
 Implementations MUST only produce field elements in this form.
 
-On receiving a point, implementations MUST mask the leftmost bit of byte
-31 to zero.  This is done to preserve compatibility with point formats
-which reserve the sign bit for use in other protocols and increase
-resistance to implementation fingerprinting.  Implementations MUST
-reject numbers in the range \[2^255-19, 2^255-1\], inclusive.
 
+# Security considerations
+
+The field is chosen as the field with around 512 bits that offers
+the fastest field arithmetic. Reduction modulo p = 2^521 - 1 is 
+particularly efficient because p is a Mersenne prime.
+The value for d is the smallest in absolute value so that d
+is not a square, #E and #E' (the twist of E) have both cofactor 4, 
+and E satisfies the remaining criteria for a safe curve.
+See also {{SafeCurves}}.
 
 --- back
 
