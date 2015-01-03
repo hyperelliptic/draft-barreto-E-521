@@ -5,7 +5,7 @@ docname: draft-barreto-E-521-latest
 date: 2015-01-01
 category: info
 
-ipr: XXX
+ipr: trust200902 
 area: Security
 workgroup: CFRG
 keyword: Internet-Draft
