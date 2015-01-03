@@ -1,0 +1,224 @@
+
+
+
+
+CFRG                                                          P. Barreto
+Internet-Draft                                   University of Sao Paulo
+Intended status: Informational                                M. Hamburg
+Expires: July 5, 2015                                                XXX
+                                                                T. Lange
+                                       Technische Universiteit Eindhoven
+                                                        January 01, 2015
+
+
+                                 E-521
+                       draft-barreto-E-521-latest
+
+Abstract
+
+   This document describes the curve E-521 and its use for internet
+   protocols.  It specifies the wire format for ECDH (Elliptic-curve
+   Diffie-Hellman) key-agreement as well as the key agreement
+   computations.  It also specifies the wire format and computations for
+   an elliptic-curve signature scheme.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at http://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on July 5, 2015.
+
+Copyright Notice
+
+   Copyright (c) 2015 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents
+   (http://trustee.ietf.org/license-info) in effect on the date of
+   publication of this document.  Please review these documents
+   carefully, as they describe your rights and restrictions with respect
+   to this document.  Code Components extracted from this document must
+
+
+
+Barreto, et al.           Expires July 5, 2015                  [Page 1]
+
+Internet-Draft                    E-521                     January 2015
+
+
+   include Simplified BSD License text as described in Section 4.e of
+   the Trust Legal Provisions and are provided without warranty as
+   described in the Simplified BSD License.
+
+1.  Introduction
+
+   This document describes the curve E-521 and its use for internet
+   protocols.  It specifies the wire format for ECDH (Elliptic-curve
+   Diffie-Hellman) key-agreement as well as the key agreement
+   computations.  It also specifies the wire format and computations for
+   an elliptic-curve signature scheme.
+
+   This provides a stable reference for the curve E-521.  This curve was
+   found independently by three teams: Michael Hamburg Daniel J.
+   Bernstein and Tanja Lange Diego F.  Aranha and Paulo S.  L.  M.
+   Barreto and Geovandro C.  C.  F.  Pereira and Jefferson E.
+   Ricardini, see [E521] in fall 2013 [SafeCurves].
+
+   This curve has been proposed for use in Brazilian IT systems (see
+   [BarretoAranha]) and benchmarking results are available
+   [GrangerScott].
+
+1.1.  Terminology
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in [RFC2119].
+
+2.  Notation and Definitions
+
+   The following notation and definitions are used in this document
+   (notation is to the left of the ":"):
+
+   A: A value used in an elliptic-curve equation.
+
+   B: A value used in an elliptic-curve equation.
+
+   d: A value used in an elliptic-curve equation.
+
+   E: An elliptic-curve.
+
+   p: A prime.
+
+   GF(p): The field with p elements.
+
+   _#: Subscript notation, where # is a number or letter.
+
+   =: Assignment.
+
+
+
+Barreto, et al.           Expires July 5, 2015                  [Page 2]
+
+Internet-Draft                    E-521                     January 2015
+
+
+   ^: Exponentiation.
+
+   +, -, *, /: Addition, subtraction, multiplication, and division,
+   respectively.
+
+   Note that all operations are performed modulo p.
+
+3.  The E-521 curve
+
+   Let p = 2^521 - 1.  Let E-521 be the elliptic curve with equation in
+   Edwards form x^2 + y^2 = 1 - 376014 * x^2 * y^2 over GF(p).  The
+   Montgomery form of E-521 is given by B * y^2 = x^3 + A * x^2 + x over
+   GF(p), where A = 2 * (1 - 376014)/(1 + 376014) and B = 4/(1 +
+   376014).  The map from the Edwards curve takes a point (x,y) to the
+   point ((1 + y)/(1 - y),(1 + y)/(1 - y) * x).  The map from the
+   Montgomery curve takes a point (x,y) to the point (x/y, (x - 1)/(x +
+   1)).
+
+   Each element x of GF(p) has a unique little-endian representation as
+   66 bytes x[0] ... x[65], such that x[0] + 256 * x[1] + 256^2 * x[2] +
+   ... + 256^65 * x[65] is congruent to x modulo p, and x[65] is
+   minimal.  Implementations MUST only produce field elements in this
+   form.
+
+4.  Security considerations
+
+   The field is chosen as the field with around 512 bits that offers the
+   fastest field arithmetic.  Reduction modulo p = 2^521 - 1 is
+   particularly efficient because p is a Mersenne prime.  The value for
+   d is the smallest in absolute value so that d is not a square, #E and
+   #E' (the twist of E) have both cofactor 4, and E satisfies the
+   remaining criteria for a safe curve.  See also [SafeCurves].
+
+5.  References
+
+5.1.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119, March 1997.
+
+5.2.  Informative References
+
+   [BarretoAranha]
+              Barreto, P. and D. Aranha, "Sobre os padroes
+              criptograficos de curvas elipticas adotados pela ICP-
+              Brasil", July 2014,
+              <http://www.larc.usp.br/~pbarreto/manifesto-curvas.pdf>.
+
+
+
+
+Barreto, et al.           Expires July 5, 2015                  [Page 3]
+
+Internet-Draft                    E-521                     January 2015
+
+
+   [E521]     Aranha, D., Barreto, P., Pereira, G., and J. Ricardini, "A
+              note on high-security general-purpose elliptic curves",
+              November 2013, <http://eprint.iacr.org/2013/647>.
+
+   [GrangerScott]
+              Granger, R. and M. Scott, "Faster ECC over
+              $\mathbb{F}_{2^{521}-1}$", October 2014,
+              <http://eprint.iacr.org/2014/852>.
+
+   [SafeCurves]
+              Bernstein, D. and T. Lange, "SafeCurves -- choosing safe
+              curves for elliptic-curve cryptography", 2013,
+              <http://safecurves.cr.yp.to/>.
+
+   [TwistedEdwards]
+              Bernstein, D., Birkner, P., Joye, M., Lange, T., and C.
+              Peters, "Twisted Edwards Curves", 2008,
+              <http://eprint.iacr.org/2008/013>.
+
+Authors' Addresses
+
+   Paulo Sergio Licciardi Messeder Barreto
+   University of Sao Paulo
+
+   Email: pbarreto@larc.usp.br
+
+
+   Michael Hamburg
+   XXX
+
+   Email: mike@shiftleft.org
+
+
+   Tanja Lange
+   Technische Universiteit Eindhoven
+
+   Email: tanja@hyperelliptic.org
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Barreto, et al.           Expires July 5, 2015                  [Page 4]

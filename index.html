@@ -1,0 +1,694 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+
+  <title>E-521</title>
+
+  <style type="text/css" title="Xml2Rfc (sans serif)">
+  /*<![CDATA[*/
+	  a {
+	  text-decoration: none;
+	  }
+      /* info code from SantaKlauss at http://www.madaboutstyle.com/tooltip2.html */
+      a.info {
+          /* This is the key. */
+          position: relative;
+          z-index: 24;
+          text-decoration: none;
+      }
+      a.info:hover {
+          z-index: 25;
+          color: #FFF; background-color: #900;
+      }
+      a.info span { display: none; }
+      a.info:hover span.info {
+          /* The span will display just on :hover state. */
+          display: block;
+          position: absolute;
+          font-size: smaller;
+          top: 2em; left: -5em; width: 15em;
+          padding: 2px; border: 1px solid #333;
+          color: #900; background-color: #EEE;
+          text-align: left;
+      }
+	  a.smpl {
+	  color: black;
+	  }
+	  a:hover {
+	  text-decoration: underline;
+	  }
+	  a:active {
+	  text-decoration: underline;
+	  }
+	  address {
+	  margin-top: 1em;
+	  margin-left: 2em;
+	  font-style: normal;
+	  }
+	  body {
+	  color: black;
+	  font-family: verdana, helvetica, arial, sans-serif;
+	  font-size: 10pt;
+	  max-width: 55em;
+	  
+	  }
+	  cite {
+	  font-style: normal;
+	  }
+	  dd {
+	  margin-right: 2em;
+	  }
+	  dl {
+	  margin-left: 2em;
+	  }
+	
+	  ul.empty {
+	  list-style-type: none;
+	  }
+	  ul.empty li {
+	  margin-top: .5em;
+	  }
+	  dl p {
+	  margin-left: 0em;
+	  }
+	  dt {
+	  margin-top: .5em;
+	  }
+	  h1 {
+	  font-size: 14pt;
+	  line-height: 21pt;
+	  page-break-after: avoid;
+	  }
+	  h1.np {
+	  page-break-before: always;
+	  }
+	  h1 a {
+	  color: #333333;
+	  }
+	  h2 {
+	  font-size: 12pt;
+	  line-height: 15pt;
+	  page-break-after: avoid;
+	  }
+	  h3, h4, h5, h6 {
+	  font-size: 10pt;
+	  page-break-after: avoid;
+	  }
+	  h2 a, h3 a, h4 a, h5 a, h6 a {
+	  color: black;
+	  }
+	  img {
+	  margin-left: 3em;
+	  }
+	  li {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  ol {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  ol p {
+	  margin-left: 0em;
+	  }
+	  p {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  pre {
+	  margin-left: 3em;
+	  background-color: lightyellow;
+	  padding: .25em;
+	  }
+	  pre.text2 {
+	  border-style: dotted;
+	  border-width: 1px;
+	  background-color: #f0f0f0;
+	  width: 69em;
+	  }
+	  pre.inline {
+	  background-color: white;
+	  padding: 0em;
+	  }
+	  pre.text {
+	  border-style: dotted;
+	  border-width: 1px;
+	  background-color: #f8f8f8;
+	  width: 69em;
+	  }
+	  pre.drawing {
+	  border-style: solid;
+	  border-width: 1px;
+	  background-color: #f8f8f8;
+	  padding: 2em;
+	  }
+	  table {
+	  margin-left: 2em;
+	  }
+	  table.tt {
+	  vertical-align: top;
+	  }
+	  table.full {
+	  border-style: outset;
+	  border-width: 1px;
+	  }
+	  table.headers {
+	  border-style: outset;
+	  border-width: 1px;
+	  }
+	  table.tt td {
+	  vertical-align: top;
+	  }
+	  table.full td {
+	  border-style: inset;
+	  border-width: 1px;
+	  }
+	  table.tt th {
+	  vertical-align: top;
+	  }
+	  table.full th {
+	  border-style: inset;
+	  border-width: 1px;
+	  }
+	  table.headers th {
+	  border-style: none none inset none;
+	  border-width: 1px;
+	  }
+	  table.left {
+	  margin-right: auto;
+	  }
+	  table.right {
+	  margin-left: auto;
+	  }
+	  table.center {
+	  margin-left: auto;
+	  margin-right: auto;
+	  }
+	  caption {
+	  caption-side: bottom;
+	  font-weight: bold;
+	  font-size: 9pt;
+	  margin-top: .5em;
+	  }
+	
+	  table.header {
+	  border-spacing: 1px;
+	  width: 95%;
+	  font-size: 10pt;
+	  color: white;
+	  }
+	  td.top {
+	  vertical-align: top;
+	  }
+	  td.topnowrap {
+	  vertical-align: top;
+	  white-space: nowrap; 
+	  }
+	  table.header td {
+	  background-color: gray;
+	  width: 50%;
+	  }
+	  table.header a {
+	  color: white;
+	  }
+	  td.reference {
+	  vertical-align: top;
+	  white-space: nowrap;
+	  padding-right: 1em;
+	  }
+	  thead {
+	  display:table-header-group;
+	  }
+	  ul.toc, ul.toc ul {
+	  list-style: none;
+	  margin-left: 1.5em;
+	  margin-right: 0em;
+	  padding-left: 0em;
+	  }
+	  ul.toc li {
+	  line-height: 150%;
+	  font-weight: bold;
+	  font-size: 10pt;
+	  margin-left: 0em;
+	  margin-right: 0em;
+	  }
+	  ul.toc li li {
+	  line-height: normal;
+	  font-weight: normal;
+	  font-size: 9pt;
+	  margin-left: 0em;
+	  margin-right: 0em;
+	  }
+	  li.excluded {
+	  font-size: 0pt;
+	  }
+	  ul p {
+	  margin-left: 0em;
+	  }
+	
+	  .comment {
+	  background-color: yellow;
+	  }
+	  .center {
+	  text-align: center;
+	  }
+	  .error {
+	  color: red;
+	  font-style: italic;
+	  font-weight: bold;
+	  }
+	  .figure {
+	  font-weight: bold;
+	  text-align: center;
+	  font-size: 9pt;
+	  }
+	  .filename {
+	  color: #333333;
+	  font-weight: bold;
+	  font-size: 12pt;
+	  line-height: 21pt;
+	  text-align: center;
+	  }
+	  .fn {
+	  font-weight: bold;
+	  }
+	  .hidden {
+	  display: none;
+	  }
+	  .left {
+	  text-align: left;
+	  }
+	  .right {
+	  text-align: right;
+	  }
+	  .title {
+	  color: #990000;
+	  font-size: 18pt;
+	  line-height: 18pt;
+	  font-weight: bold;
+	  text-align: center;
+	  margin-top: 36pt;
+	  }
+	  .vcardline {
+	  display: block;
+	  }
+	  .warning {
+	  font-size: 14pt;
+	  background-color: yellow;
+	  }
+	
+	
+	  @media print {
+	  .noprint {
+		display: none;
+	  }
+	
+	  a {
+		color: black;
+		text-decoration: none;
+	  }
+	
+	  table.header {
+		width: 90%;
+	  }
+	
+	  td.header {
+		width: 50%;
+		color: black;
+		background-color: white;
+		vertical-align: top;
+		font-size: 12pt;
+	  }
+	
+	  ul.toc a::after {
+		content: leader('.') target-counter(attr(href), page);
+	  }
+	
+	  ul.ind li li a {
+		content: target-counter(attr(href), page);
+	  }
+	
+	  .print2col {
+		column-count: 2;
+		-moz-column-count: 2;
+		column-fill: auto;
+	  }
+	  }
+	
+	  @page {
+	  @top-left {
+		   content: "Internet-Draft"; 
+	  } 
+	  @top-right {
+		   content: "December 2010"; 
+	  } 
+	  @top-center {
+		   content: "Abbreviated Title";
+	  } 
+	  @bottom-left {
+		   content: "Doe"; 
+	  } 
+	  @bottom-center {
+		   content: "Expires June 2011"; 
+	  } 
+	  @bottom-right {
+		   content: "[Page " counter(page) "]"; 
+	  } 
+	  }
+	
+	  @page:first { 
+		@top-left {
+		  content: normal;
+		}
+		@top-right {
+		  content: normal;
+		}
+		@top-center {
+		  content: normal;
+		}
+	  }
+  /*]]>*/
+  </style>
+  <style type="text/css">
+@viewport {
+  zoom: 1.0;
+  width: extend-to-zoom;
+}
+
+@-ms-viewport {
+  width: extend-to-zoom;
+  zoom: 1.0;
+}
+
+body {
+  font: 11pt cambria, helvetica, arial, sans-serif;
+  font-size-adjust: 0.5;
+  line-height: 130%;
+  margin: 1em auto;
+  max-width: 700px;
+}
+
+.title, .filename, h1, h2, h3, h4 {
+  font-family: candara, helvetica, arial, sans-serif;
+  font-size-adjust: 0.5;
+}
+.title { font-size: 150%; }
+h1 { font-size: 130%; }
+h2 { font-size: 120%; }
+h3, h4 { font-size: 110%; }
+ul.toc >li { font-size: 95%; }
+ul.toc >li >ul, .figure, caption { font-size: 90%; }
+
+table {
+  margin-left: 0em;
+}
+table.header {
+  width: 100%;
+}
+
+table.header td {
+  background-color: inherit;
+  color: black;
+}
+
+samp, tt, code, pre {
+  font: 11pt consolas, monospace;
+  font-size-adjust: none;
+}
+
+pre.text, pre.text2 {
+  width: 90%;
+}
+
+dt {
+  float: left; clear: left;
+  margin: 0.5em 0.5em 0 0;
+}
+dt:first-child {
+  margin-top: 0;
+}
+dd {
+  margin: 0.5em 0 0 2em;
+}
+dd p, dd ul {
+  margin-top: 0; margin-bottom: 0;
+}
+dd *+p {
+  margin-top: 0.5em;
+}
+
+ol, ul {
+  padding: 0;
+  margin: 0.5em 0 0.5em 2em;
+}
+ul.toc, ul.toc ul { 
+  margin: 0 0 0 1.5em;
+}
+ul.toc a:first-child { 
+  display: inline-block; 
+  min-width: 1.2em;
+}  </style>
+
+  <link href="#rfc.toc" rel="Contents"/>
+<link href="#rfc.section.1" rel="Chapter" title="1 Introduction"/>
+<link href="#rfc.section.1.1" rel="Chapter" title="1.1 Terminology"/>
+<link href="#rfc.section.2" rel="Chapter" title="2 Notation and Definitions"/>
+<link href="#rfc.section.3" rel="Chapter" title="3 The E-521 curve"/>
+<link href="#rfc.section.4" rel="Chapter" title="4 Security considerations"/>
+<link href="#rfc.references" rel="Chapter" title="5 References"/>
+<link href="#rfc.references.1" rel="Chapter" title="5.1 Normative References"/>
+<link href="#rfc.references.2" rel="Chapter" title="5.2 Informative References"/>
+<link href="#rfc.authors" rel="Chapter"/>
+
+
+  <meta name="generator" content="xml2rfc version 2.4.9dev0 - http://tools.ietf.org/tools/xml2rfc" />
+  <link rel="schema.dct" href="http://purl.org/dc/terms/" />
+
+  <meta name="dct.creator" content="Barreto, P., Hamburg, M., and T. Lange" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-barreto-E-521-latest" />
+  <meta name="dct.issued" scheme="ISO8601" content="2015-1-01" />
+  <meta name="dct.abstract" content="This document describes the curve E-521 and its use for internet protocols.  It specifies the wire format for ECDH (Elliptic-curve Diffie-Hellman) key-agreement as well as the key agreement computations. It also specifies the wire format and computations for an elliptic-curve signature scheme." />
+  <meta name="description" content="This document describes the curve E-521 and its use for internet protocols.  It specifies the wire format for ECDH (Elliptic-curve Diffie-Hellman) key-agreement as well as the key agreement computations. It also specifies the wire format and computations for an elliptic-curve signature scheme." />
+
+</head>
+
+<body>
+
+  <table class="header">
+    <tbody>
+    
+    	<tr>
+  <td class="left">CFRG</td>
+  <td class="right">P. Barreto</td>
+</tr>
+<tr>
+  <td class="left">Internet-Draft</td>
+  <td class="right">University of S&#227;o Paulo</td>
+</tr>
+<tr>
+  <td class="left">Intended status: Informational</td>
+  <td class="right">M. Hamburg</td>
+</tr>
+<tr>
+  <td class="left">Expires: July 5, 2015</td>
+  <td class="right">XXX</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">T. Lange</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">Technische Universiteit Eindhoven</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">January 01, 2015</td>
+</tr>
+
+    	
+    </tbody>
+  </table>
+
+  <p class="title">E-521<br />
+  <span class="filename">draft-barreto-E-521-latest</span></p>
+  
+  <h1 id="rfc.abstract">
+  <a href="#rfc.abstract">Abstract</a>
+</h1>
+<p>This document describes the curve E-521 and its use for internet protocols.  It specifies the wire format for ECDH (Elliptic-curve Diffie-Hellman) key-agreement as well as the key agreement computations. It also specifies the wire format and computations for an elliptic-curve signature scheme.</p>
+<h1 id="rfc.status">
+  <a href="#rfc.status">Status of This Memo</a>
+</h1>
+<p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
+<p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
+<p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
+<p>This Internet-Draft will expire on July 5, 2015.</p>
+<h1 id="rfc.copyrightnotice">
+  <a href="#rfc.copyrightnotice">Copyright Notice</a>
+</h1>
+<p>Copyright (c) 2015 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (http://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
+<h1 id="rfc.section.1"><a href="#rfc.section.1">1.</a> <a href="#introduction" id="introduction">Introduction</a></h1>
+<p id="rfc.section.1.p.1">This document describes the curve E-521 and its use for internet protocols.  It specifies the wire format for ECDH (Elliptic-curve Diffie-Hellman) key-agreement as well as the key agreement computations. It also specifies the wire format and computations for an elliptic-curve signature scheme.</p>
+<p id="rfc.section.1.p.2">This provides a stable reference for the curve E-521. This curve was found independently by three teams: Michael Hamburg Daniel J. Bernstein and Tanja Lange Diego F. Aranha and Paulo S. L. M. Barreto and Geovandro C. C. F. Pereira and Jefferson E. Ricardini, see <a href="#E521">[E521]</a> in fall 2013 <a href="#SafeCurves">[SafeCurves]</a>.</p>
+<p id="rfc.section.1.p.3">This curve has been proposed for use in Brazilian IT systems (see <a href="#BarretoAranha">[BarretoAranha]</a>) and benchmarking results are available <a href="#GrangerScott">[GrangerScott]</a>.</p>
+<h1 id="rfc.section.1.1"><a href="#rfc.section.1.1">1.1.</a> <a href="#terminology" id="terminology">Terminology</a></h1>
+<p id="rfc.section.1.1.p.1">The key words &#8220;MUST&#8221;, &#8220;MUST NOT&#8221;, &#8220;REQUIRED&#8221;, &#8220;SHALL&#8221;, &#8220;SHALL NOT&#8221;, &#8220;SHOULD&#8221;, &#8220;SHOULD NOT&#8221;, &#8220;RECOMMENDED&#8221;, &#8220;MAY&#8221;, and &#8220;OPTIONAL&#8221; in this document are to be interpreted as described in <a href="#RFC2119">[RFC2119]</a>.</p>
+<h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> <a href="#notation-and-definitions" id="notation-and-definitions">Notation and Definitions</a></h1>
+<p id="rfc.section.2.p.1">The following notation and definitions are used in this document (notation is to the left of the &#8220;:&#8221;):</p>
+<p id="rfc.section.2.p.2">A: A value used in an elliptic-curve equation.</p>
+<p id="rfc.section.2.p.3">B: A value used in an elliptic-curve equation.</p>
+<p id="rfc.section.2.p.4">d: A value used in an elliptic-curve equation.</p>
+<p id="rfc.section.2.p.5">E: An elliptic-curve.</p>
+<p id="rfc.section.2.p.6">p: A prime.</p>
+<p id="rfc.section.2.p.7">GF(p): The field with p elements.</p>
+<p id="rfc.section.2.p.8">_#: Subscript notation, where # is a number or letter.</p>
+<p id="rfc.section.2.p.9">=: Assignment.</p>
+<p id="rfc.section.2.p.10">^: Exponentiation.</p>
+<p id="rfc.section.2.p.11">+, -, *, /: Addition, subtraction, multiplication, and division, respectively.</p>
+<p id="rfc.section.2.p.12">Note that all operations are performed modulo p.</p>
+<h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> <a href="#the-e-521-curve" id="the-e-521-curve">The E-521 curve</a></h1>
+<p id="rfc.section.3.p.1">Let p = 2^521 - 1. Let E-521 be the elliptic curve with equation in Edwards form x^2 + y^2 = 1 - 376014 * x^2 * y^2 over GF(p).  The Montgomery form of E-521 is given by B * y^2 = x^3 + A * x^2 + x over GF(p), where A = 2 * (1 - 376014)/(1 + 376014) and B = 4/(1 + 376014).  The map from the Edwards curve takes a point (x,y) to the point ((1 + y)/(1 &#8722; y),(1 + y)/(1 &#8722; y) * x).  The map from the Montgomery curve takes a point (x,y) to the point (x/y, (x &#8722; 1)/(x + 1)).</p>
+<p id="rfc.section.3.p.2">Each element x of GF(p) has a unique little-endian representation as 66 bytes x[0] &#8230; x[65], such that x[0] + 256 * x[1] + 256^2 * x[2] + &#8230; + 256^65 * x[65] is congruent to x modulo p, and x[65] is minimal.  Implementations MUST only produce field elements in this form.</p>
+<h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#security-considerations" id="security-considerations">Security considerations</a></h1>
+<p id="rfc.section.4.p.1">The field is chosen as the field with around 512 bits that offers the fastest field arithmetic. Reduction modulo p = 2^521 - 1 is particularly efficient because p is a Mersenne prime.  The value for d is the smallest in absolute value so that d is not a square, #E and #E&#8217; (the twist of E) have both cofactor 4, and E satisfies the remaining criteria for a safe curve.  See also <a href="#SafeCurves">[SafeCurves]</a>.</p>
+<h1 id="rfc.references"><a href="#rfc.references">5.</a> References</h1>
+<h1 id="rfc.references.1"><a href="#rfc.references.1">5.1.</a> Normative References</h1>
+<table>
+  <tbody>
+    <tr>
+      <td class="reference">
+        <b id="RFC2119">[RFC2119]</b>
+      </td>
+      <td class="top"><a href="mailto:sob@harvard.edu" title="Harvard University">Bradner, S.</a>, "<a href="http://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, March 1997.</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.references.2"><a href="#rfc.references.2">5.2.</a> Informative References</h1>
+<table>
+  <tbody>
+    <tr>
+      <td class="reference">
+        <b id="BarretoAranha">[BarretoAranha]</b>
+      </td>
+      <td class="top"><a>Barreto, P.</a> and <a>D. Aranha</a>, "<a href="http://www.larc.usp.br/~pbarreto/manifesto-curvas.pdf">Sobre os padr&#245;es criptogr&#225;ficos de curvas el&#237;pticas adotados pela ICP-Brasil</a>", July 2014.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="E521">[E521]</b>
+      </td>
+      <td class="top"><a>Aranha, D.</a>, <a>Barreto, P.</a>, <a>Pereira, G.</a> and <a>J. Ricardini</a>, "<a href="http://eprint.iacr.org/2013/647">A note on high-security general-purpose elliptic curves</a>", November 2013.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="GrangerScott">[GrangerScott]</b>
+      </td>
+      <td class="top"><a>Granger, R.</a> and <a>M. Scott</a>, "<a href="http://eprint.iacr.org/2014/852">Faster ECC over $\mathbb{F}_{2^{521}-1}$</a>", October 2014.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="SafeCurves">[SafeCurves]</b>
+      </td>
+      <td class="top"><a>Bernstein, D.</a> and <a>T. Lange</a>, "<a href="http://safecurves.cr.yp.to/">SafeCurves -- choosing safe curves for elliptic-curve cryptography</a>", 2013.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="TwistedEdwards">[TwistedEdwards]</b>
+      </td>
+      <td class="top"><a>Bernstein, D.</a>, <a>Birkner, P.</a>, <a>Joye, M.</a>, <a>Lange, T.</a> and <a>C. Peters</a>, "<a href="http://eprint.iacr.org/2008/013">Twisted Edwards Curves</a>", 2008.</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.authors">
+  <a href="#rfc.authors">Authors' Addresses</a>
+</h1>
+<div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Paulo Sergio Licciardi Messeder Barreto</span> 
+	  <span class="n hidden">
+		<span class="family-name">Barreto</span>
+	  </span>
+	</span>
+	<span class="org vcardline">University of S&#227;o Paulo</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:pbarreto@larc.usp.br">pbarreto@larc.usp.br</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Michael Hamburg</span> 
+	  <span class="n hidden">
+		<span class="family-name">Hamburg</span>
+	  </span>
+	</span>
+	<span class="org vcardline">XXX</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:mike@shiftleft.org">mike@shiftleft.org</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Tanja Lange</span> 
+	  <span class="n hidden">
+		<span class="family-name">Lange</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Technische Universiteit Eindhoven</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:tanja@hyperelliptic.org">tanja@hyperelliptic.org</a></span>
+
+  </address>
+</div>
+  
+  <hr class="noprint" />
+  <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
+  <ul class="toc">
+
+  	<li>1.   <a href="#rfc.section.1">Introduction</a></li>
+<ul><li>1.1.   <a href="#rfc.section.1.1">Terminology</a></li>
+</ul><li>2.   <a href="#rfc.section.2">Notation and Definitions</a></li>
+<li>3.   <a href="#rfc.section.3">The E-521 curve</a></li>
+<li>4.   <a href="#rfc.section.4">Security considerations</a></li>
+<li>5.   <a href="#rfc.references">References</a></li>
+<ul><li>5.1.   <a href="#rfc.references.1">Normative References</a></li>
+<li>5.2.   <a href="#rfc.references.2">Informative References</a></li>
+</ul><li><a href="#rfc.authors">Authors' Addresses</a></li>
+
+
+  </ul>
+
+  
+
+</body>
+</html>
