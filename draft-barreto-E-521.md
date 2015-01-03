@@ -293,7 +293,10 @@ is not a square, #E and #E' (the twist of E) have both cofactor 4,
 and E satisfies the remaining criteria for a safe curve.
 See also {{SafeCurves}}.
 
+# other stuff
+Example on Edwards, basepoint (x,12) as on safecurves page.
+
+
 --- back
 
-Example on Edwards, basepoint (x,12) as on safecurves page.
 
