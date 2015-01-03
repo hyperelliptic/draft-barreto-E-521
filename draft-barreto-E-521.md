@@ -183,6 +183,7 @@ The map from the Edwards curve takes a point (x,y) to the point
 ((1 + y)/(1 − y),(1 + y)/(1 − y) * x).
 The map from the Montgomery curve takes a point (x,y) to the point
 (x/y, (x − 1)/(x + 1)).
+For details on the relation see {{TwistedEdwards}}.
 
 Each element x of GF(p) has a unique little-endian representation
 as 66 bytes x\[0\] ... x\[65\], such that 
@@ -190,6 +191,97 @@ x\[0\] + 256 * x\[1\] + 256^2 * x\[2\] + ... + 256^65 * x\[65\]
 is congruent to x modulo p, and x\[65\] is minimal, i.e. only
 the least significant bit of x\[65\] may be nonzero. 
 Implementations MUST only produce field elements in this form.
+
+
+# More drafty stuff
+The rest consists of notes on what I would like to see here. 
+
+# Shared secret computation
+
+I think that using the basepoint (x,12) on E-521 as on safecurves
+is good, I don't want to mess up people's implementations if they
+choose to move between curves, so the point should be compatible.
+This means that the Montgomery x is 13/11.
+
+Use trick from Mike/Robert Ransom to work projectively with A, so that
+we don't need to have a small A. In the end we work with (A-2)/4,
+so with (2*(a+d)/(a-d) -2)/4 = d/(a-d)
+
+Should we call this AN/AD and use
+AN = -376014
+AD = (1 + 376014)
+
+Then (mostly copied from the Curve25519 draft) 
+
+~~~~~~~~~~
+    x_1 = x
+    x_2 = 0
+    z_2 = 1
+    x_3 = x
+    z_3 = 1
+    For t = 520 down to 0:
+        // Conditional swap; see text below.
+        (x_2, x_3) = cswap (s_t, x_2, x_3)
+        (z_2, z_3) = cswap (s_t, z_2, z_3)
+        A = x_2 + z_2
+        AA = A^2
+        B = x_2 - z_2
+        BB = B^2
+        E = AA - BB
+        C = x_3 + z_3
+        D = x_3 - z_3
+        DA = D * A
+        CB = C * B
+        x_3 = (DA + CB)^2
+        z_3 = x_1 * (DA - CB)^2
+	// choosing AP here to denote projective AA?
+	AP = AA * AD
+        x_2 = AP * BB
+        z_2 = E * (AP + AN * E)
+        // Conditional swap; see text below.
+        (x_2, x_3) = cswap (s_t, x_2, x_3)
+        (z_2, z_3) = cswap (s_t, z_2, z_3)
+    Return x_2 * (z_2^(p - 1))
+~~~~~~~~~~
+
+In implementing this procedure, due to the existence of side-channels
+in commodity hardware, it is important that the pattern of memory accesses
+and jumps not depend on the values of any of the bits of s.
+It is also important that the arithmetic used not leak information about 
+the integers modulo p (such as having b * c distinguishable from c * c).
+
+The cswap instruction SHOULD be implemented in constant time (independent 
+of s_t) as follows:
+
+cswap(s_t, x_2, x_3)
+      dummy = s_t * (x_2 - x_3)
+      x_2 = x_2 - dummy
+      x_3 = x_3 + dummy
+Return (x_2, x_3)
+
+where s_t is 1 or 0. Alternatively, an implementation MAY use the
+following:
+
+      dummy = mask(s_t) AND (x_2 XOR x_3)
+      x_2 = x_2 XOR dummy
+      x_3 = x_3 XOR dummy
+
+where mask(s_t) is the all-1 or all-0 word of the same length as x_2
+and x_3, computed, e.g., as 
+      mask(s_t) = 0 - s_t.
+The latter version is often more efficient.
+
+Then copy  the part on use in DH functions.
+
+# E-521 for signatures
+
+Are we all comfortable with recommending EdDSA for signatures?
+
+I think we need to specify the window size for Edwards computations,
+From the Curve41417 experience I think we can't take too large windows
+because then loading all of them to make the table-lookup be constant
+time is just too painful. Signed windows is less of a problem. What do
+you think?
 
 # Security considerations
 
@@ -203,4 +295,5 @@ See also {{SafeCurves}}.
 
 --- back
 
+Example on Edwards, basepoint (x,12) as on safecurves page.
 
