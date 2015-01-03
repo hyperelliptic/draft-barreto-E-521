@@ -11,20 +11,22 @@ workgroup: CFRG
 keyword: Internet-Draft
 
 stand_alone: yes
-pi: [toc, sortrefs, symrefs]
+pi:
+   toc: no
+   sortrefs: yes
+   symrefs: yes
 
 author:
- -
+-
     ins: P. S. L. M. Barreto  
     name: Paulo Sergio Licciardi Messeder Barreto 
     organization: University of São Paulo 
     email: pbarreto@larc.usp.br
- -
+-
     ins: M. Hamburg
     name: Michael Hamburg
     org: XXX
     email: mike@shiftleft.org
-
 -
     ins: T. Lange
     name: Tanja Lange
@@ -32,58 +34,63 @@ author:
     email: tanja@hyperelliptic.org 
 
 normative:
-  RFC2119:
+    RFC2119:
 
 informative:
-  E-521: 
-      target: http://eprint.iacr.org/2013/647
-      title: A note on high-security general-purpose elliptic curves
-      author:
-	  name: Diego F. Aranha
-	  ins: D.F. Aranha
+    E521: 
+        target: http://eprint.iacr.org/2013/647
+        title: A note on high-security general-purpose elliptic curves
+        author:
+        -
+            name: Diego F. Aranha
+            ins: D.F. Aranha
+        -
+            name: Paulo S. L. M. Barreto
+            ins: P.S.L.M. Barreto  
+        - 
+            name: Geovandro C. C. F. Pereira
+            ins: G.C.C.F. Pereira
+        -  
+            name: Jefferson Ricardini 
+            ins: J. Ricardini
+        date: 2013-11-04
 
-	  name: Paulo S. L. M. Barreto
-	  ins: P.S.L.M. Barreto  
-	 
-	  name: Geovandro C. C. F. Pereira
-	  ins: G.C.C.F. Pereira
-
-	  name: Jefferson Ricardini 
-	  ins: J. Ricardini
-      date: 2013-11-04
-
-  SafeCurves:
-      target: http://safecurves.cr.yp.to/
-      title: SafeCurves: choosing safe curves for elliptic-curve cryptography
-      author:
-          name: Daniel J. Bernstein
-          ins: D.J. Bernstein
-
-	  name: Tanja Lange
-	  ins: T. Lange
-      date: 2013
+    SafeCurves:
+        target: http://safecurves.cr.yp.to/
+        title: SafeCurves -- choosing safe curves for elliptic-curve cryptography
+        author:
+        -
+            name: Daniel J. Bernstein
+            ins: D.J. Bernstein
+        -
+            name: Tanja Lange
+            ins: T. Lange
+        date: 2013
   
-   GrangerScott:
-	target: http://eprint.iacr.org/2014/852
-	title: Faster ECC over $\mathbb{F}_{2^{521}-1}$
-	author:
-	    name: Robert Granger
-	    ins: R. Granger
+    GrangerScott:
+        target: http://eprint.iacr.org/2014/852
+        title: Faster ECC over $\mathbb{F}_{2^{521}-1}$
+        author:
+        -
+            name: Robert Granger
+            ins: R. Granger
+        -
+            name: Michael Scott
+            ins: M. Scott
+        date: 2014-10-17
 
-	    name: Michael Scott
-	    ins: M. Scott
-	date 2014-10-17
+    BarretoAranha:
+        target: http://www.larc.usp.br/~pbarreto/manifesto-curvas.pdf
+        title: Sobre os padrões criptográficos de curvas elípticas adotados pela ICP-Brasil
+        author: 
+        -
+            name: Paulo S. L. M. Barreto
+            ins: P.S.L.M. Barreto
+        -
+            name: Diego F. Aranha
+            ins: D.F. Aranha
+        date: 2014-07-17      
 
-   BarretoAranha:
-	target: http://www.larc.usp.br/~pbarreto/manifesto-curvas.pdf
-	title: Sobre os padrões criptográficos de curvas elípticas adotados pela ICP-Brasil
-	author: 
-          name: Paulo S. L. M. Barreto
-          ins: P.S.L.M. Barreto
-
-          name: Diego F. Aranha
-          ins: D.F. Aranha
-	date: 2014-07-17	
 --- abstract
 
 This document describes the curve E-521 and its use for internet protocols.
@@ -91,11 +98,9 @@ It specifies the wire format for ECDH (Elliptic-curve Diffie-Hellman)
 key-agreement as well as the key agreement computations. It also specifies
 the wire format and computations for an elliptic-curve signature scheme.
 
-
 --- middle
 
-Introduction {#intro}
-============
+# Introduction
 
 This document describes the curve E-521 and its use for internet protocols.
 It specifies the wire format for ECDH (Elliptic-curve Diffie-Hellman) 
@@ -104,9 +109,10 @@ the wire format and computations for an elliptic-curve signature scheme.
 
 This provides a stable reference for the curve E-521. This curve was 
 found independently by three teams:
-	Michael Hamburg
-	Daniel J. Bernstein and Tanja Lange
-	Diego F. Aranha and Paulo S. L. M. Barreto and Geovandro C. C. F. Pereira and Jefferson E. Ricardini, see {{E-521}}
+        Michael Hamburg
+        Daniel J. Bernstein and Tanja Lange
+        Diego F. Aranha and Paulo S. L. M. Barreto and Geovandro C. C. F. Pereira and Jefferson E. Ricardini, see {{E521}}
+in fall 2013 {{SafeCurves}}.
 
 ## Terminology
 
@@ -137,15 +143,24 @@ _#: Subscript notation, where # is a number or letter.
 
 Note that all operations are performed modulo p.
 
-The E-521 curve {#definition}
----------------
+# The E-521 curve 
 
+Let p = 2^521 - 1. Let E be the elliptic curve with equation
+x^2 + y^2 = 1 - 376014 * x^2 * y^2 over GF(p).
+
+Each element x of GF(p) has a unique little-endian representation
+as 66 bytes x\[0\] ... x\[65\], such that 
+x\[0\] + 256 * x\[1\] + 256^2 * x\[2\] + ... + 256^65 * x\[65\] 
+is congruent to x modulo p, and x\[65\] is minimal. 
+Implementations MUST only produce field elements in this form.
+
+On receiving a point, implementations MUST mask the leftmost bit of byte
+31 to zero.  This is done to preserve compatibility with point formats
+which reserve the sign bit for use in other protocols and increase
+resistance to implementation fingerprinting.  Implementations MUST
+reject numbers in the range \[2^255-19, 2^255-1\], inclusive.
 
 
 --- back
-
-
-Examples  {#xmp}
-========
 
 
