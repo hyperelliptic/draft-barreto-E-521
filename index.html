@@ -457,10 +457,14 @@ ul.toc a:first-child {
 <link href="#rfc.section.1.1" rel="Chapter" title="1.1 Terminology"/>
 <link href="#rfc.section.2" rel="Chapter" title="2 Notation and Definitions"/>
 <link href="#rfc.section.3" rel="Chapter" title="3 The E-521 curve"/>
-<link href="#rfc.section.4" rel="Chapter" title="4 Security considerations"/>
-<link href="#rfc.references" rel="Chapter" title="5 References"/>
-<link href="#rfc.references.1" rel="Chapter" title="5.1 Normative References"/>
-<link href="#rfc.references.2" rel="Chapter" title="5.2 Informative References"/>
+<link href="#rfc.section.4" rel="Chapter" title="4 More drafty stuff"/>
+<link href="#rfc.section.5" rel="Chapter" title="5 Shared secret computation"/>
+<link href="#rfc.section.6" rel="Chapter" title="6 E-521 for signatures"/>
+<link href="#rfc.section.7" rel="Chapter" title="7 Security considerations"/>
+<link href="#rfc.section.8" rel="Chapter" title="8 other stuff"/>
+<link href="#rfc.references" rel="Chapter" title="9 References"/>
+<link href="#rfc.references.1" rel="Chapter" title="9.1 Normative References"/>
+<link href="#rfc.references.2" rel="Chapter" title="9.2 Informative References"/>
 <link href="#rfc.authors" rel="Chapter"/>
 
 
@@ -552,12 +556,65 @@ ul.toc a:first-child {
 <p id="rfc.section.2.p.11">+, -, *, /: Addition, subtraction, multiplication, and division, respectively.</p>
 <p id="rfc.section.2.p.12">Note that all operations are performed modulo p.</p>
 <h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> <a href="#the-e-521-curve" id="the-e-521-curve">The E-521 curve</a></h1>
-<p id="rfc.section.3.p.1">Let p = 2^521 - 1. Let E-521 be the elliptic curve with equation in Edwards form x^2 + y^2 = 1 - 376014 * x^2 * y^2 over GF(p).  The Montgomery form of E-521 is given by B * y^2 = x^3 + A * x^2 + x over GF(p), where A = 2 * (1 - 376014)/(1 + 376014) and B = 4/(1 + 376014).  The map from the Edwards curve takes a point (x,y) to the point ((1 + y)/(1 &#8722; y),(1 + y)/(1 &#8722; y) * x).  The map from the Montgomery curve takes a point (x,y) to the point (x/y, (x &#8722; 1)/(x + 1)).</p>
+<p id="rfc.section.3.p.1">Let p = 2^521 - 1. Let E-521 be the elliptic curve with equation in Edwards form x^2 + y^2 = 1 - 376014 * x^2 * y^2 over GF(p).  The Montgomery form of E-521 is given by B * y^2 = x^3 + A * x^2 + x over GF(p), where A = 2 * (1 - 376014)/(1 + 376014) and B = 4/(1 + 376014).  The map from the Edwards curve takes a point (x,y) to the point ((1 + y)/(1 &#8722; y),(1 + y)/(1 &#8722; y) * x).  The map from the Montgomery curve takes a point (x,y) to the point (x/y, (x &#8722; 1)/(x + 1)).  For details on the relation see <a href="#TwistedEdwards">[TwistedEdwards]</a>.</p>
 <p id="rfc.section.3.p.2">Each element x of GF(p) has a unique little-endian representation as 66 bytes x[0] &#8230; x[65], such that x[0] + 256 * x[1] + 256^2 * x[2] + &#8230; + 256^65 * x[65] is congruent to x modulo p, and x[65] is minimal, i.e. only the least significant bit of x[65] may be nonzero.  Implementations MUST only produce field elements in this form.</p>
-<h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#security-considerations" id="security-considerations">Security considerations</a></h1>
-<p id="rfc.section.4.p.1">The field is chosen as the field with around 512 bits that offers the fastest field arithmetic. Reduction modulo p = 2^521 - 1 is particularly efficient because p is a Mersenne prime.  The value for d is the smallest in absolute value so that d is not a square, #E and #E&#8217; (the twist of E) have both cofactor 4, and E satisfies the remaining criteria for a safe curve.  See also <a href="#SafeCurves">[SafeCurves]</a>.</p>
-<h1 id="rfc.references"><a href="#rfc.references">5.</a> References</h1>
-<h1 id="rfc.references.1"><a href="#rfc.references.1">5.1.</a> Normative References</h1>
+<h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#more-drafty-stuff" id="more-drafty-stuff">More drafty stuff</a></h1>
+<p id="rfc.section.4.p.1">The rest consists of notes on what I would like to see here. </p>
+<h1 id="rfc.section.5"><a href="#rfc.section.5">5.</a> <a href="#shared-secret-computation" id="shared-secret-computation">Shared secret computation</a></h1>
+<p id="rfc.section.5.p.1">I think that using the basepoint (x,12) on E-521 as on safecurves is good, I don&#8217;t want to mess up people&#8217;s implementations if they choose to move between curves, so the point should be compatible.  This means that the Montgomery x is 13/11.</p>
+<p id="rfc.section.5.p.2">Use trick from Mike/Robert Ransom to work projectively with A, so that we don&#8217;t need to have a small A. In the end we work with (A-2)/4, so with (2*(a+d)/(a-d) -2)/4 = d/(a-d)</p>
+<p id="rfc.section.5.p.3">Should we call this AN/AD and use AN = -376014 AD = (1 + 376014)</p>
+<p id="rfc.section.5.p.4">Then (mostly copied from the Curve25519 draft) </p>
+<pre>
+    x_1 = x
+    x_2 = 0
+    z_2 = 1
+    x_3 = x
+    z_3 = 1
+    For t = 520 down to 0:
+        // Conditional swap; see text below.
+        (x_2, x_3) = cswap (s_t, x_2, x_3)
+        (z_2, z_3) = cswap (s_t, z_2, z_3)
+        A = x_2 + z_2
+        AA = A^2
+        B = x_2 - z_2
+        BB = B^2
+        E = AA - BB
+        C = x_3 + z_3
+        D = x_3 - z_3
+        DA = D * A
+        CB = C * B
+        x_3 = (DA + CB)^2
+        z_3 = x_1 * (DA - CB)^2
+	// choosing AP here to denote projective AA?
+	AP = AA * AD
+        x_2 = AP * BB
+        z_2 = E * (AP + AN * E)
+        // Conditional swap; see text below.
+        (x_2, x_3) = cswap (s_t, x_2, x_3)
+        (z_2, z_3) = cswap (s_t, z_2, z_3)
+    Return x_2 * (z_2^(p - 1))
+</pre>
+<p id="rfc.section.5.p.5">In implementing this procedure, due to the existence of side-channels in commodity hardware, it is important that the pattern of memory accesses and jumps not depend on the values of any of the bits of s.  It is also important that the arithmetic used not leak information about the integers modulo p (such as having b * c distinguishable from c * c).</p>
+<p id="rfc.section.5.p.6">The cswap instruction SHOULD be implemented in constant time (independent of s_t) as follows:</p>
+<p id="rfc.section.5.p.7">cswap(s_t, x_2, x_3) dummy = s_t * (x_2 - x_3) x_2 = x_2 - dummy x_3 = x_3 + dummy Return (x_2, x_3)</p>
+<p id="rfc.section.5.p.8">where s_t is 1 or 0. Alternatively, an implementation MAY use the following:</p>
+<pre>
+  dummy = mask(s_t) AND (x_2 XOR x_3)
+  x_2 = x_2 XOR dummy
+  x_3 = x_3 XOR dummy
+</pre>
+<p id="rfc.section.5.p.9">where mask(s_t) is the all-1 or all-0 word of the same length as x_2 and x_3, computed, e.g., as mask(s_t) = 0 - s_t.  The latter version is often more efficient.</p>
+<p id="rfc.section.5.p.10">Then copy  the part on use in DH functions.</p>
+<h1 id="rfc.section.6"><a href="#rfc.section.6">6.</a> <a href="#e-521-for-signatures" id="e-521-for-signatures">E-521 for signatures</a></h1>
+<p id="rfc.section.6.p.1">Are we all comfortable with recommending EdDSA for signatures?</p>
+<p id="rfc.section.6.p.2">I think we need to specify the window size for Edwards computations, From the Curve41417 experience I think we can&#8217;t take too large windows because then loading all of them to make the table-lookup be constant time is just too painful. Signed windows is less of a problem. What do you think?</p>
+<h1 id="rfc.section.7"><a href="#rfc.section.7">7.</a> <a href="#security-considerations" id="security-considerations">Security considerations</a></h1>
+<p id="rfc.section.7.p.1">The field is chosen as the field with around 512 bits that offers the fastest field arithmetic. Reduction modulo p = 2^521 - 1 is particularly efficient because p is a Mersenne prime.  The value for d is the smallest in absolute value so that d is not a square, #E and #E&#8217; (the twist of E) have both cofactor 4, and E satisfies the remaining criteria for a safe curve.  See also <a href="#SafeCurves">[SafeCurves]</a>.</p>
+<h1 id="rfc.section.8"><a href="#rfc.section.8">8.</a> <a href="#other-stuff" id="other-stuff">other stuff</a></h1>
+<p id="rfc.section.8.p.1">Example on Edwards, basepoint (x,12) as on safecurves page.</p>
+<h1 id="rfc.references"><a href="#rfc.references">9.</a> References</h1>
+<h1 id="rfc.references.1"><a href="#rfc.references.1">9.1.</a> Normative References</h1>
 <table>
   <tbody>
     <tr>
@@ -568,7 +625,7 @@ ul.toc a:first-child {
     </tr>
   </tbody>
 </table>
-<h1 id="rfc.references.2"><a href="#rfc.references.2">5.2.</a> Informative References</h1>
+<h1 id="rfc.references.2"><a href="#rfc.references.2">9.2.</a> Informative References</h1>
 <table>
   <tbody>
     <tr>
@@ -679,10 +736,14 @@ ul.toc a:first-child {
 <ul><li>1.1.   <a href="#rfc.section.1.1">Terminology</a></li>
 </ul><li>2.   <a href="#rfc.section.2">Notation and Definitions</a></li>
 <li>3.   <a href="#rfc.section.3">The E-521 curve</a></li>
-<li>4.   <a href="#rfc.section.4">Security considerations</a></li>
-<li>5.   <a href="#rfc.references">References</a></li>
-<ul><li>5.1.   <a href="#rfc.references.1">Normative References</a></li>
-<li>5.2.   <a href="#rfc.references.2">Informative References</a></li>
+<li>4.   <a href="#rfc.section.4">More drafty stuff</a></li>
+<li>5.   <a href="#rfc.section.5">Shared secret computation</a></li>
+<li>6.   <a href="#rfc.section.6">E-521 for signatures</a></li>
+<li>7.   <a href="#rfc.section.7">Security considerations</a></li>
+<li>8.   <a href="#rfc.section.8">other stuff</a></li>
+<li>9.   <a href="#rfc.references">References</a></li>
+<ul><li>9.1.   <a href="#rfc.references.1">Normative References</a></li>
+<li>9.2.   <a href="#rfc.references.2">Informative References</a></li>
 </ul><li><a href="#rfc.authors">Authors' Addresses</a></li>
 
 
